@@ -10,6 +10,7 @@ import com.bank.backend.domain.services.security.JwtService;
 import com.bank.backend.domain.services.security.OtpService;
 import com.bank.backend.domain.services.security.SysUserDetailsService;
 import com.bank.backend.persistance.repository.SysUserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -103,5 +104,10 @@ public class IdmService {
 
     public Boolean verifyOtp(String otp) throws NoSuchAlgorithmException, InvalidKeyException {
         return otpService.verifyOtp(otp, identityProvider.currentIdentity().getUsername());
+    }
+
+    public Boolean validateToken(HttpServletRequest request) {
+        UserDetails user = identityProvider.currentIdentityDetails();
+        return jwtService.isTokenValid(jwtService.extractToken(request), user);
     }
 }

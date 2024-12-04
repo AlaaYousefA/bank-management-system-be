@@ -8,6 +8,7 @@ import com.bank.backend.domain.mapper.RegisterMapper;
 import com.bank.backend.domain.mapper.UserAuthenticationMapper;
 import com.bank.backend.domain.model.SysUser;
 import com.bank.backend.domain.services.IdmService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +49,10 @@ public class IdmController {
     @GetMapping("/verify")
     public ResponseEntity<Boolean> verifyOtp(@RequestParam String otp) throws NoSuchAlgorithmException, InvalidKeyException {
         return ResponseEntity.ok(idmService.verifyOtp(otp));
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<Boolean> validateToken(HttpServletRequest request){
+        return ResponseEntity.ok(idmService.validateToken(request));
     }
 }
